@@ -24,7 +24,7 @@ private:
     ofstream errorOutput;
     ofstream codeOutput;
 
-    void traverseAST(ASTNode* node,int tmplabel = 0,std::function<void(int)> callback = nullptr);
+    void traverseAST(ASTNode* node);
     void analyzeCompUnit(CompUnitNode* node);
     void analyzeDecl(DeclNode* node);
     void analyzeConstDecl(ConstDeclNode* node);
@@ -58,8 +58,8 @@ private:
     void analyzeSmallfor(SmallforstmtNode *node);
     // 新增的 analyze 方法
     void analyzeReturnStmt(ReturnStmtNode* node);
-    void analyzeBreakStmt(BreakStmtNode* node,int tmplabel);
-    void analyzeContinueStmt(ContinueStmtNode* node,int tmplabel);
+    void analyzeBreakStmt(BreakStmtNode* node);
+    void analyzeContinueStmt(ContinueStmtNode* node);
     void analyzePrintfStmt(PrintfStmtNode* node);
     void analyzeEmptyStmt(EmptyStmtNode* node);
     void analyzeAssignStmt(AssignStmtNode* node);

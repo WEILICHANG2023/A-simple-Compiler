@@ -67,20 +67,41 @@ std::string replaceCommentsWithSpaces(const std::string& input) {
     bool inComment = false;
 
     for (size_t i = 0; i < input.size(); ++i) {
-        if (!inComment && input[i] == '/' && i + 1 < input.size() && input[i + 1] == '*') {
-            inComment = true;
-            ++i; // Skip the '*'
-        } else if (inComment && input[i] == '*' && i + 1 < input.size() && input[i + 1] == '/') {
-            inComment = false;
-            ++i; // Skip the '/'
-        } else if (inComment) {
-            if (input[i] == '\n') {
-                output << '\n'; // Preserve newlines
-            } else {
-                output << ' '; // Replace other characters with spaces
+        if (!inComment) {
+            // 检测块注释开始
+            if (input[i] == '/' && i + 1 < input.size() && input[i + 1] == '*') {
+                inComment = true;
+                ++i; // Skip the '*'
+            }
+            // 检测单行注释开始
+            else if (input[i] == '/' && i + 1 < input.size() && input[i + 1] == '/') {
+                // 跳过单行注释，直到遇到换行符
+                while (i < input.size() && input[i] != '\n') {
+                    ++i;
+                }
+                // 如果遇到换行符，保留换行符
+                if (i < input.size()) {
+                    output << '\n';
+                }
+            }
+            // 复制非注释字符
+            else {
+                output << input[i];
             }
         } else {
-            output << input[i]; // Copy non-comment characters as is
+            // 检测块注释结束
+            if (input[i] == '*' && i + 1 < input.size() && input[i + 1] == '/') {
+                inComment = false;
+                ++i; // Skip the '/'
+            }
+            // 处理块注释内容
+            else {
+                if (input[i] == '\n') {
+                    output << '\n'; // Preserve newlines
+                } else {
+                    output << ' '; // Replace other characters with spaces
+                }
+            }
         }
     }
 

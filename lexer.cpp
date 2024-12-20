@@ -51,26 +51,6 @@ void Lexer::analyze() {
             skipWhitespace();
             continue;
         }
-        if (ch == '/') {
-            char nextCh;
-            input.get(nextCh);
-            if (nextCh == '/') {
-                input.unget();
-                input.unget();
-                // 单行注释
-                skipWhitespace();
-                continue;
-            } else if (nextCh == '*') {
-                input.unget();
-                input.unget();
-                // 多行注释
-                skipWhitespace();
-                continue;
-            } else {
-                // 不是注释，回退一个字符
-                input.unget();
-            }
-        }
         if (isalpha(ch) || ch == '_') {
             input.unget();
             string identifier = readIdentifier();
@@ -173,24 +153,6 @@ void Lexer::skipWhitespace() {
         if (isspace(ch)) {
             if (ch == '\n') {
                 lineNumber++;
-            }
-        } else if (ch == '/') {
-            char nextCh;
-            input.get(nextCh);
-            if (nextCh != '/' && nextCh != '*') {
-                input.unget(); // 不是注释，回退一个字符
-                input.unget(); // 回退 '/' 字符
-                break;
-            } else if (nextCh == '/') {
-                while (input.get(ch) && ch != '\n') {}
-                lineNumber++;
-            } else if (nextCh == '*') {
-                while (input.get(ch)) {
-                    if (ch == '*' && input.get(nextCh) && nextCh == '/') {
-                        break;
-                    }
-                    if (ch == '\n') lineNumber++;
-                }
             }
         } else {
             input.unget(); // 不是空白字符或注释，回退一个字符

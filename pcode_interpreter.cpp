@@ -6,13 +6,11 @@ int funcblock_stacknum = 0;
 /*处理同名数组的深度*/
 int SameArrDeep = 0;
 
-void PCodeInterpreter::run(const std::string& filename,const std::string& input,const std::string& result) {
+void PCodeInterpreter::run(const std::string& filename,const std::string& result) {
     instructions = parsePCodeFile(filename);
     programCounter = 0;
-    inputfile.open(input);
     outputfile.open(result);
     execute();
-    inputfile.close();
     outputfile.close();
 }
 

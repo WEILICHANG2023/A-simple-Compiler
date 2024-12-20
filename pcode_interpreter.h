@@ -66,11 +66,10 @@ struct Instruction {
 
 class PCodeInterpreter {
 public:
-    void run(const string& filename,const string& input,const string& result);
+    void run(const string& filename,const string& result);
 
 private:
     ofstream   outputfile;
-    ifstream   inputfile;
     vector<Instruction> instructions;
     size_t programCounter;
     //unordered_map<string, stack<vector<int>>> variables;//变量和数组合一

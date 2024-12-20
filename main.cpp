@@ -17,6 +17,7 @@ int main() {
         cerr << "Error: Could not open testfile.txt" << endl;
         return 1;
     }
+    //去掉注释
     processFile("testfile.txt", "testfile2.txt");
     // 词法分析
     Lexer lexer("testfile2.txt", "lexer.txt", "lexer_error.txt");
@@ -38,7 +39,7 @@ int main() {
     deduplicateLines("error2.txt","error.txt");
 
     PCodeInterpreter interpreter;
-    interpreter.run("P_code.txt","input.txt","pcoderesult.txt");
+    interpreter.run("P_code.txt","pcoderesult.txt");
 
     //cout<<"program have been finished"<<endl;
     return 0;

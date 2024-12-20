@@ -129,7 +129,7 @@ void SymbolTable::dumpSymbolTable(const string& filename) const {
     outputFile.close();
 }
 
-void SemanticAnalyzer::traverseAST(ASTNode* node, int tmplabel, std::function<void(int)> callback) {
+void SemanticAnalyzer::traverseAST(ASTNode* node) {
     if (!node) {
         //cout<<"null node !!!"<<endl;
         return;
@@ -226,8 +226,6 @@ void SemanticAnalyzer::traverseAST(ASTNode* node, int tmplabel, std::function<vo
         case NODE_NUMBER:{
             auto numberNode = static_cast<NumberNode*>(node);
             //cout<<"analyzer:number"<<endl;
-            if (callback)
-                callback(numberNode->value);
             analyzeNumber(numberNode);
             break;
         }
@@ -247,10 +245,10 @@ void SemanticAnalyzer::traverseAST(ASTNode* node, int tmplabel, std::function<vo
             analyzeReturnStmt(static_cast<ReturnStmtNode*>(node));
             break;
         case NODE_BREAKSTMT:
-            analyzeBreakStmt(static_cast<BreakStmtNode*>(node),tmplabel);
+            analyzeBreakStmt(static_cast<BreakStmtNode*>(node));
             break;
         case NODE_CONTINUESTMT:
-            analyzeContinueStmt(static_cast<ContinueStmtNode*>(node),tmplabel);
+            analyzeContinueStmt(static_cast<ContinueStmtNode*>(node));
             break;
         case NODE_PRINTFSTMT:
             analyzePrintfStmt(static_cast<PrintfStmtNode*>(node));
@@ -955,8 +953,7 @@ void SemanticAnalyzer::analyzeLandExp(LandExpNode* node) {
         //printAST(node->operands[i].get());
         cout<<node->operands[i].get()->type<<endl;
         /*短路求值*/
-        traverseAST(node->operands[i].get(), 0,[this](int value) {    
-        });
+        traverseAST(node->operands[i].get());
         if (i > 0) {
             codeOutput << "AND" << endl;
         }
@@ -976,9 +973,7 @@ void SemanticAnalyzer::analyzeLorExp(LorExpNode* node) {
         tmp = ++shortvalorder;
     for (size_t i = 0; i < node->operands.size(); ++i) {
         cout<<node->operands[i].get()->type<<endl;
-        traverseAST(node->operands[i].get(), 0,[this](int value) {
-            
-        });
+        traverseAST(node->operands[i].get());
         if (i > 0) {
             codeOutput << "OR" << endl;
         }
@@ -1146,7 +1141,7 @@ void SemanticAnalyzer::analyzeFor(ForNode* node) {
         jumpiffalse_pcode("FOR_END",tmp);
     }
         
-    traverseAST(static_cast<StmtNode*>(node->body.get()),tmp);
+    traverseAST(static_cast<StmtNode*>(node->body.get()));
     //cout<<"tmp is "<<tmp<<endl;
     label("CONTINUE",tmp);
 
@@ -1205,7 +1200,7 @@ void SemanticAnalyzer::analyzeReturnStmt(ReturnStmtNode* node) {
 
 }
 
-void SemanticAnalyzer::analyzeBreakStmt(BreakStmtNode* node,int tmplabel) {
+void SemanticAnalyzer::analyzeBreakStmt(BreakStmtNode* node) {
     if (!node) return;
     // 检查 break 语句的语义
     //cout << "Analyzing BreakStmtNode" << endl;
@@ -1213,7 +1208,7 @@ void SemanticAnalyzer::analyzeBreakStmt(BreakStmtNode* node,int tmplabel) {
     break_pcode(break_continu);
 }
 
-void SemanticAnalyzer::analyzeContinueStmt(ContinueStmtNode* node,int tmplabel) {
+void SemanticAnalyzer::analyzeContinueStmt(ContinueStmtNode* node) {
     if (!node) return;
     // 检查 continue 语句的语义
     //cout << "Analyzing ContinueStmtNode" << endl;
