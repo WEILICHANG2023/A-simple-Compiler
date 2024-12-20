@@ -67,7 +67,7 @@ int globalVar = 5;  // 全局变量声明
 /* 多行注释：定义一个函数，计算数组元素的和 */
 int sumArray(int arr[], int size) {
     int sum = 0;
-    int i = 0
+    int i = 0;
     for (i = 0; i < size; i = i + 1) {
         sum = sum + arr[i];
     }
@@ -76,7 +76,7 @@ int sumArray(int arr[], int size) {
 
 /* 多行注释：定义一个函数，判断数组中是否有偶数 */
 int hasEven(int arr[], int size) {
-    int i = 0
+    int i = 0;
     for (i = 0; i < size; i = i + 1) {
         if (arr[i] % 2 == 0) {
             return 1; // 返回1表示有偶数
@@ -101,7 +101,7 @@ int main() {
     }
 
     // 使用for循环打印数组元素
-    int i = 0
+    int i = 0;
     for (i = 0; i < MAX; i = i + 1) {
         printf("Element %d: %d\n", i, array[i]);
     }
