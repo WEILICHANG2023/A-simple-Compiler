@@ -64,7 +64,9 @@ vim build/testfile.txt
 const int MAX = 10; // 常量声明
 int globalVar = 5;  // 全局变量声明
 
-/* 多行注释：定义一个函数，计算数组元素的和 */
+/* 多行注释：
+定义一个函数，
+计算数组元素的和 */
 int sumArray(int arr[], int size) {
     int sum = 0;
     int i = 0;
